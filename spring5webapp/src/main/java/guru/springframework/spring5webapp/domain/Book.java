@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -24,6 +25,9 @@ private Long id;
 
 private String title;
 private String isbn;
+
+@ManyToOne
+private Publisher publisher;
 
 @ManyToMany
 @JoinTable(name = "author_book", joinColumns = @JoinColumn(name = "book_id"), inverseJoinColumns = @JoinColumn(name = "author_id"))
@@ -43,7 +47,6 @@ public String toString() {
                "id=" + id +
                ", title='" + title + '\'' +
                ", isbn='" + isbn + '\'' +
-               ", authors=" + authors +
                '}';
 }
 
