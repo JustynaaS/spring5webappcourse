@@ -25,13 +25,25 @@ public BootStrapData(AuthorRepository authorRepository, BookRepository bookRepos
 @Override
 public void run(String... args) throws Exception {
 
+    Publisher publisher = new Publisher();
+    publisher.setName("SFG Publishing");
+    publisher.setCity("St Petersburg");
+    publisher.setState("FL");
+
+    publisherRepository.save(publisher);
+
     Author eric = new Author("Eric", "Evans");
     Book ddd = new Book("Domain Driven Design", "123123");
     eric.getBooks().add(ddd);
     ddd.getAuthors().add(eric);
 
+
+    ddd.setPublisher(publisher);
+    publisher.getBooks().add(ddd);
+
     authorRepository.save(eric);
     bookRepository.save(ddd);
+    publisherRepository.save(publisher);
 
     Author rod = new Author("Rod", "Johnson");
     Book noEJB = new Book("J2EE Development without EJB", "3939459459");
@@ -39,25 +51,18 @@ public void run(String... args) throws Exception {
     rod.getBooks().add(noEJB);
     noEJB.getAuthors().add(rod);
 
+    noEJB.setPublisher(publisher);
+    publisher.getBooks().add(noEJB);
+
     authorRepository.save(rod);
     bookRepository.save(noEJB);
+    publisherRepository.save(publisher);
 
-    Publisher publisher1 = new Publisher();
-    publisher1.setName("SFG Publishing");
-    publisher1.setCity("St Petersburg");
-    publisher1.setState("FL");
-
-    Publisher publisher2 = new Publisher();
-    publisher2.setName("Poland Publishing");
-    publisher2.setCity("St Louis");
-    publisher2.setState("PL");
-
-    publisherRepository.save(publisher1);
-    publisherRepository.save(publisher2);
 
     System.out.println("started in bootstrap");
     System.out.println("number of books: " + bookRepository.count());
-    System.out.println("number of publishers: " + bookRepository.count());
+    System.out.println("publisher count: " + publisherRepository.count());
+    System.out.println("publisher number of books: " + publisher.getBooks().size());
 
 }
 }
